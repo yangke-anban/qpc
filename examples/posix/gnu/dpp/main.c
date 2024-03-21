@@ -77,5 +77,10 @@ int main(int argc, char *argv[]) {
                   l_tableQueueSto, Q_DIM(l_tableQueueSto),
                   (void *)0, 1024, (QEvt *)0);               /* 1K of stack */
 
+    /*QEvt *evt;
+    int i = 0;
+    for(i=0;i<4;i++)
+	    evt=QF_new_(sizeof(l_smlPoolSto[0]), 1);*/
+    return 0;
     return QF_run();                              /* run the QF application */
 }

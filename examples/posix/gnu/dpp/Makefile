@@ -102,7 +102,8 @@ LD_SCRIPT :=
 #-----------------------------------------------------------------------------
 # build options for various configurations
 #
-
+COV_CFLAGS := -fprofile-arcs -ftest-coverage
+LIBGCOV := ""
 ifeq (rel, $(CONF))       # Release configuration ............................
 
 BIN_DIR := rel
@@ -135,13 +136,13 @@ BIN_DIR := dbg
 
 ASFLAGS =
 
-CFLAGS = -c -Wall -pthread -g $(INCLUDES) $(DEFINES)
+CFLAGS = $(COV_CFLAGS) -c -Wall -pthread -g $(INCLUDES) $(DEFINES)
 
-CPPFLAGS = -c -Wall -pthread -g $(INCLUDES) $(DEFINES)
+CPPFLAGS = $(COV_CFLAGS) -c -Wall -pthread -g $(INCLUDES) $(DEFINES)
 
 LINKFLAGS = -L$(QP_PORT_DIR)/$(BIN_DIR) -pthread
 
-
+LIBGCOV = -lgcov
 endif
 
 
@@ -173,7 +174,7 @@ $(TARGET_BIN): $(TARGET_EXE)
 	$(BIN) -O binary $< $@
 
 $(TARGET_EXE) : $(ASM_OBJS_EXT) $(C_OBJS_EXT) $(CPP_OBJS_EXT)
-	$(LINK) $(LINKFLAGS) -o $@ $^ -lqp
+	$(LINK) $(LINKFLAGS) -o $@ $^ -lqp $(LIBGCOV)
 
 $(BIN_DIR)/%.d : %.c
 	$(CC) -MM -MT $(@:.d=.o) $(CFLAGS) $< > $@

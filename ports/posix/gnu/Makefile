@@ -67,10 +67,10 @@ CCINC      = -I$(QP_PRTDIR) -I$(QP_INCDIR)
 #-----------------------------------------------------------------------------
 # build options for various configurations
 #
+COV_FLAGS  = -fprofile-arcs -ftest-coverage
 ifeq (rel, $(CONF))       # Release configuration ............................
 
 BINDIR  = rel
-
 # gcc options
 # -c    : compile only
 # -O    : optimize
@@ -104,8 +104,7 @@ QP_DEP  = $(QP_INCDIR)\qassert.h
 # gcc options
 # -c    : compile only
 # -g    : source level debugging
-CCFLAGS = -c -g -O -Wall -pthread -o$@
-
+CCFLAGS = $(COV_FLAGS) -c -g -O -Wall -pthread -o$@
 endif
 
 VPATH = $(QEP_SRCDIR) $(QF_SRCDIR) $(QS_SRCDIR)
